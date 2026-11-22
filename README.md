@@ -40,8 +40,36 @@ Drop a skill into your machine (or any repo), ask for a page, and get a modern, 
 | Skill | What it builds | Highlights |
 | :-- | :-- | :-- |
 | 🌌 **`animated-landing`** | Landing / welcome / marketing pages and product home pages | Aurora glows · glass cards · word‑by‑word headlines · pinned scroll tour · 3D card fan · CTA band that expands into a form · menu dropdown · light & dark |
+| 🫧 **`neumorphism-ui`** | Soft UI dashboards, app screens, control panels | Same‑color surfaces · paired light/dark shadows · pressed = selected · toggles, rings, charts · dark contrast panel with curved edge · glossy app icons |
+| 💎 **`glass-3d-interfaces`** | 3D onboarding screens, feature cards, hero carousels | Deep blue glow stage · pure‑CSS glossy 3D objects (wallet, camera, shield) · center‑focus carousel · real‑time Three.js glass lock |
+| 🍱 **`bento-dark-grid`** | Bento feature sections and tile dashboards | Mixed tile sizes on CSS Grid · gradient borders · cursor spotlight · big stat numbers · code & chart tiles · staggered entrance · light mode |
+| 🧸 **`claymorphism-ui`** | Friendly, playful app & landing pages | Puffy pastel clay (outer + 2 inner shadows) · squishy springy buttons · floating clay objects · pricing trio · pill toggles & tab bar |
+| 🪟 **`glassmorphism-ui`** | Glass dashboards, widgets, login cards, navbars | Frosted panels over drifting color blobs · thin light edges · cursor light · weather / player / stats widgets · glass dock · no‑blur fallbacks |
 
-> 🧩 More templates will be added here as new folders under [`skills/`](skills) — each one is self‑contained and installs the same way.
+> 🧩 Each skill is a self‑contained folder under [`skills/`](skills) with a `SKILL.md` and a working `template/index.html` (single file, no build step) — open it in a browser to see the style.
+
+<br>
+
+## 🖼️ Style gallery
+
+<br>
+
+<table>
+<tr>
+<td width="50%" align="center"><img src="assets/neumorphism-ui.png" alt="Neumorphism UI template" width="100%"><br><sub>🫧 <b>neumorphism-ui</b> — <a href="skills/neumorphism-ui/template/index.html">template</a></sub></td>
+<td width="50%" align="center"><img src="assets/glass-3d-interfaces.png" alt="3D glass interfaces template" width="100%"><br><sub>💎 <b>glass-3d-interfaces</b> — <a href="skills/glass-3d-interfaces/template/index.html">template</a></sub></td>
+</tr>
+<tr>
+<td width="50%" align="center"><img src="assets/bento-dark-grid.png" alt="Bento dark grid template" width="100%"><br><sub>🍱 <b>bento-dark-grid</b> — <a href="skills/bento-dark-grid/template/index.html">template</a></sub></td>
+<td width="50%" align="center"><img src="assets/claymorphism-ui.png" alt="Claymorphism UI template" width="100%"><br><sub>🧸 <b>claymorphism-ui</b> — <a href="skills/claymorphism-ui/template/index.html">template</a></sub></td>
+</tr>
+<tr>
+<td width="50%" align="center"><img src="assets/glassmorphism-ui.png" alt="Glassmorphism UI template" width="100%"><br><sub>🪟 <b>glassmorphism-ui</b> — <a href="skills/glassmorphism-ui/template/index.html">template</a></sub></td>
+<td width="50%" align="center"><img src="assets/preview.png" alt="Animated landing template" width="100%"><br><sub>🌌 <b>animated-landing</b> — <a href="skills/animated-landing/template/index.html">template</a></sub></td>
+</tr>
+</table>
+
+**Use one:** `/bento-dark-grid build the features section for my SaaS` · `/claymorphism-ui make a pricing page` · or just say *"make it glassmorphic"*.
 
 <br>
 
@@ -159,7 +187,7 @@ The skill lands in `<your-project>/.claude/skills/` — commit it and everyone w
 
 <br>
 
-Copy the folder [`skills/animated-landing`](skills/animated-landing) into either:
+Copy any skill folder from [`skills/`](skills) (for example [`skills/animated-landing`](skills/animated-landing)) into either:
 
 | Scope | Location |
 | :-- | :-- |
@@ -294,12 +322,17 @@ websites-templates-skills/
 ├── 🐧 install.sh
 ├── 🖼️ assets/                     # README previews
 └── 🧩 skills/
-    └── 🌌 animated-landing/
-        ├── SKILL.md              # design system + rules the assistant follows
-        └── template/
-            ├── index.html
-            ├── styles.css
-            └── motion.js
+    ├── 🌌 animated-landing/
+    │   ├── SKILL.md              # design system + rules the assistant follows
+    │   └── template/
+    │       ├── index.html
+    │       ├── styles.css
+    │       └── motion.js
+    ├── 🫧 neumorphism-ui/        # SKILL.md + template/index.html
+    ├── 💎 glass-3d-interfaces/   # SKILL.md + template/index.html
+    ├── 🍱 bento-dark-grid/       # SKILL.md + template/index.html
+    ├── 🧸 claymorphism-ui/       # SKILL.md + template/index.html
+    └── 🪟 glassmorphism-ui/      # SKILL.md + template/index.html
 ```
 
 <br>

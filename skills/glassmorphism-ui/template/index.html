@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glassmorphism UI Sample</title>
+<style>
+:root{--ink:#fff;--muted:rgba(255,255,255,.75);--edge:rgba(255,255,255,.35)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0e0a24;color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,sans-serif;min-height:100vh;padding:80px 4vw 60px;overflow-x:hidden}
+.blobs{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.blobs i{position:absolute;border-radius:50%;filter:blur(60px);opacity:.85;animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(8vw,-6vh) scale(1.15)}}
+.glass{background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.06));
+  backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid var(--edge);border-radius:24px;position:relative;overflow:hidden;
+  box-shadow:0 20px 50px rgba(10,0,40,.35),inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(255,255,255,.08)}
+.glass::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.22),transparent 60%)}
+.glass:hover::after{opacity:1}
+@supports not (backdrop-filter:blur(1px)){.glass{background:rgba(40,25,90,.88)}}
+@media (prefers-reduced-transparency:reduce){.glass{background:rgba(40,25,90,.92);backdrop-filter:none}}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.nav{max-width:1150px;margin:0 auto 40px;display:flex;justify-content:space-between;align-items:center;padding:12px 14px 12px 22px;border-radius:999px}
+.nav b{font-size:18px}.nav .links{display:flex;gap:4px}
+.nav .links button{padding:9px 16px;border-radius:999px;font-size:14px;color:var(--muted)}
+.nav .links button.on{background:rgba(255,255,255,.2);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.cta{background:#fff;color:#2a1460;font-weight:700;padding:10px 20px;border-radius:999px;font-size:14px}
+.grid{max-width:1150px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-auto-rows:minmax(150px,auto);gap:20px}
+.hero{grid-row:span 2;padding:36px;display:flex;flex-direction:column;justify-content:space-between;min-height:340px}
+.hero small{letter-spacing:.2em;font-size:12px;color:var(--muted)}
+.hero h1{font-size:clamp(34px,4.6vw,58px);line-height:1;letter-spacing:-.03em;margin:14px 0}
+.hero p{color:var(--muted);line-height:1.55;max-width:400px}
+.hero .row{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.btn{padding:13px 22px;border-radius:999px;font-weight:700}
+.btn.solid{background:linear-gradient(135deg,#ff5fa2,#7c5cff);box-shadow:0 10px 30px rgba(124,92,255,.5)}
+.btn.ghost{background:rgba(255,255,255,.14);border:1px solid var(--edge)}
+.w{padding:22px}
+.w h3{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.05em}
+.weather{display:flex;flex-direction:column;justify-content:space-between}
+.weather .t{font-size:64px;font-weight:300;line-height:1}
+.weather .sun{position:absolute;right:20px;top:20px;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff6c4,#ffb84d 60%,#ff7a3d);box-shadow:0 0 40px #ffb84d}
+.weather .cloud{position:absolute;right:6px;top:52px;width:70px;height:30px;border-radius:30px;background:rgba(255,255,255,.55);backdrop-filter:blur(6px);border:1px solid #fff8}
+.days{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);text-align:center}.days b{display:block;color:#fff;font-size:15px;margin-top:4px}
+.player{display:flex;gap:16px;align-items:center}
+.art{width:84px;height:84px;border-radius:18px;background:conic-gradient(from 200deg,#ff5fa2,#7c5cff,#20c5ff,#ff5fa2);flex:none;animation:spin 12s linear infinite}
+.art.paused{animation-play-state:paused}
+@keyframes spin{to{transform:rotate(360deg)}}
+.player .info{flex:1;min-width:0}.player .info b{display:block}.player .info span{font-size:13px;color:var(--muted)}
+.track{height:5px;border-radius:5px;background:rgba(255,255,255,.2);margin:12px 0 10px;overflow:hidden}.track i{display:block;height:100%;width:35%;background:#fff;border-radius:5px}
+.ctrls{display:flex;gap:10px;align-items:center}.ctrls button{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid var(--edge)}
+.ctrls .pp{width:46px;height:46px;background:#fff;color:#2a1460;font-weight:900}
+.stat .big{font-size:40px;font-weight:700;margin-top:8px}.stat .delta{font-size:13px;color:#7dffb5;font-weight:600}
+.spark{margin-top:10px;width:100%;height:50px}
+.login{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;padding:28px}
+.login h2{font-size:26px}.login p{color:var(--muted);margin-top:6px;line-height:1.5}
+.field{display:block;width:100%;margin-bottom:10px;padding:13px 16px;border-radius:14px;border:1px solid var(--edge);background:rgba(255,255,255,.1);color:#fff;font:inherit}
+.field::placeholder{color:rgba(255,255,255,.65)}
+.avatars{display:flex}.avatars i{width:40px;height:40px;border-radius:50%;border:2px solid rgba(255,255,255,.7);margin-left:-10px;background:var(--c)}
+.avatars i:first-child{margin-left:0}
+.team{display:flex;flex-direction:column;justify-content:space-between}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chips span{padding:6px 12px;border-radius:999px;font-size:12px;background:rgba(255,255,255,.14);border:1px solid var(--edge)}
+.dock{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:flex;gap:10px;padding:10px;border-radius:26px;z-index:5}
+.dock button{width:50px;height:50px;border-radius:16px;font-size:22px;background:rgba(255,255,255,.12);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.dock button:hover{transform:translateY(-8px) scale(1.15)}
+@media(max-width:900px){.grid{grid-template-columns:1fr 1fr}.hero{grid-column:span 2;grid-row:auto}.login{grid-template-columns:1fr}.nav .links{display:none}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.hero,.login{grid-column:auto}}
+@media (prefers-reduced-motion:reduce){.blobs i,.art{animation:none}}
+body{padding-bottom:110px}
+</style>
+</head>
+<body>
+<div class="blobs" aria-hidden="true">
+  <i style="width:45vw;height:45vw;background:#ff5fa2;left:-10vw;top:-10vw"></i>
+  <i style="width:40vw;height:40vw;background:#7c5cff;right:-8vw;top:10vh;animation-delay:-6s"></i>
+  <i style="width:38vw;height:38vw;background:#20c5ff;left:25vw;bottom:-20vw;animation-delay:-11s"></i>
+  <i style="width:22vw;height:22vw;background:#ffb84d;right:20vw;bottom:5vh;animation-delay:-3s"></i>
+</div>
+
+<nav class="nav glass" aria-label="Main">
+  <b>◐ Lumen</b>
+  <div class="links" id="links"><button class="on">Home</button><button>Widgets</button><button>Pricing</button><button>Docs</button></div>
+  <button class="cta">Sign up</button>
+</nav>
+
+<main class="grid">
+  <section class="glass hero">
+    <div><small>GLASSMORPHISM</small><h1>Frosted glass over color</h1>
+      <p>Translucent panels, background blur, a thin light edge and an inner highlight. The colorful blobs behind are what make the glass visible.</p></div>
+    <div class="row"><button class="btn solid">Get started</button><button class="btn ghost">Live preview</button></div>
+  </section>
+
+  <section class="glass w weather"><span class="sun"></span><span class="cloud"></span>
+    <div><h3>LISBON</h3><div class="t">24°</div><span style="color:var(--muted);font-size:14px">Mostly sunny</span></div>
+    <div class="days"><div>Tue<b>25°</b></div><div>Wed<b>22°</b></div><div>Thu<b>19°</b></div><div>Fri<b>23°</b></div></div></section>
+
+  <section class="glass w stat"><h3>REVENUE</h3><div class="big">$48.2k</div><div class="delta">▲ 12.4% this week</div>
+    <svg class="spark" viewBox="0 0 200 50" preserveAspectRatio="none" aria-label="Revenue trend up"><path d="M0 40 C30 38 40 20 70 26 S120 10 140 18 S180 4 200 6" fill="none" stroke="#fff" stroke-width="2.5"/></svg></section>
+
+  <section class="glass w"><h3>NOW PLAYING</h3>
+    <div class="player" style="margin-top:12px"><div class="art" id="art"></div><div class="info"><b>Glass Horizon</b><span>Neon Waves</span>
+      <div class="track"><i id="prog"></i></div><div class="ctrls"><button aria-label="Previous">⏮</button><button class="pp" id="pp" aria-label="Pause">❚❚</button><button aria-label="Next">⏭</button></div></div></div></section>
+
+  <section class="glass w team"><h3>TEAM</h3>
+    <div class="avatars" style="margin-top:12px"><i style="--c:linear-gradient(135deg,#ff9ac6,#ff5fa2)"></i><i style="--c:linear-gradient(135deg,#a993ff,#7c5cff)"></i><i style="--c:linear-gradient(135deg,#7fe1ff,#20c5ff)"></i><i style="--c:linear-gradient(135deg,#ffd38a,#ffb84d)"></i></div>
+    <div class="chips"><span>Design</span><span>Frontend</span><span>+3 more</span></div></section>
+
+  <section class="glass login">
+    <div><h2>Welcome back</h2><p>Glass works well for login cards over a photo or gradient. Text stays white for contrast.</p></div>
+    <form onsubmit="return false"><input class="field" placeholder="Email" aria-label="Email"><input class="field" type="password" placeholder="Password" aria-label="Password"><button class="btn solid" style="width:100%">Sign in</button></form>
+  </section>
+</main>
+
+<div class="dock glass" aria-label="Dock"><button aria-label="Home">🏠</button><button aria-label="Music">🎵</button><button aria-label="Photos">🖼</button><button aria-label="Settings">⚙️</button></div>
+
+<script>
+document.querySelectorAll('.glass').forEach(g => g.addEventListener('pointermove', e => { const r = g.getBoundingClientRect();
+  g.style.setProperty('--mx', e.clientX - r.left + 'px'); g.style.setProperty('--my', e.clientY - r.top + 'px'); }));
+links.onclick = e => { const b = e.target.closest('button'); if (b) links.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); };
+let playing = true, p = 35;
+pp.onclick = () => { playing = !playing; pp.textContent = playing ? '❚❚' : '▶'; pp.setAttribute('aria-label', playing ? 'Pause' : 'Play'); art.classList.toggle('paused', !playing); };
+setInterval(() => { if (playing) { p = (p + .5) % 100; prog.style.width = p + '%'; } }, 200);
+</script>
+</body>
+</html>

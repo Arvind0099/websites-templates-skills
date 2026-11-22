@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neumorphism UI Sample</title>
+<style>
+:root{
+  --bg:#e6e8f0;--hi:#ffffff;--lo:#b8bdd0;--text:#2c3045;--muted:#6f7490;--accent:#6c5ce7;--dark:#20233a;
+  --raised:8px 8px 18px var(--lo),-8px -8px 18px var(--hi);
+  --raised-sm:4px 4px 10px var(--lo),-4px -4px 10px var(--hi);
+  --pressed:inset 6px 6px 12px var(--lo),inset -6px -6px 12px var(--hi);
+  --pressed-sm:inset 3px 3px 6px var(--lo),inset -3px -3px 6px var(--hi);
+  --dhi:#2c3050;--dlo:#131528;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,sans-serif;padding:80px 4vw 60px}
+h1{font-size:clamp(32px,5vw,52px);letter-spacing:-.02em;text-align:center}
+.lead{color:var(--muted);text-align:center;margin:8px 0 40px}
+.raised{background:var(--bg);box-shadow:var(--raised);border-radius:28px}
+.pressed{background:var(--bg);box-shadow:var(--pressed);border-radius:18px}
+button{font:inherit;color:inherit;border:0;background:var(--bg);cursor:pointer;transition:box-shadow .2s,transform .1s,color .2s}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+button:active{transform:scale(.97)}
+
+/* ===== dashboard ===== */
+.dash{display:grid;grid-template-columns:220px 1fr;gap:28px;max-width:1150px;margin:0 auto 70px;padding:28px}
+.side{padding:26px 18px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.side h4{font-size:13px;letter-spacing:.08em;color:var(--muted)}
+.avatar{width:84px;height:84px;border-radius:50%;box-shadow:var(--raised-sm);display:grid;place-items:center;margin-top:10px}
+.avatar span{width:66px;height:66px;border-radius:50%;background:linear-gradient(145deg,#8f86ff,#4a3dbd);display:grid;place-items:center;color:#fff;font-weight:700;font-size:22px}
+.side b{font-size:15px}.side small{color:var(--muted);font-size:12px;margin-top:-6px}
+.nav{width:100%;margin-top:18px;display:flex;flex-direction:column;gap:10px}
+.nav button{display:flex;gap:10px;align-items:center;padding:11px 14px;border-radius:14px;font-size:14px;color:var(--muted);text-align:left}
+.nav button.on{box-shadow:var(--pressed-sm);color:var(--accent);font-weight:600}
+.nav button:not(.on):hover{box-shadow:var(--raised-sm)}
+.side .foot{margin-top:auto;display:flex;gap:14px;padding-top:30px}
+.round{width:44px;height:44px;border-radius:50%;box-shadow:var(--raised-sm);display:grid;place-items:center}
+.round.on{box-shadow:var(--pressed-sm);color:var(--accent)}
+.main{display:grid;gap:24px;grid-template-columns:1.6fr 1fr;grid-auto-rows:min-content}
+.panel{padding:22px}
+.panel h3{font-size:15px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.span2{grid-column:span 2}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat{padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.stat small{display:block;font-size:11px;color:var(--muted)}.stat b{font-size:20px}
+.stat i{font-style:normal;width:34px;height:34px;border-radius:10px;box-shadow:var(--raised-sm);display:grid;place-items:center;font-size:15px}
+.chips{display:flex;gap:8px}
+.chips button{font-size:11px;padding:6px 10px;border-radius:10px;box-shadow:var(--raised-sm);color:var(--muted)}
+.chips button.on{box-shadow:var(--pressed-sm);color:var(--accent);font-weight:700}
+.chart{height:190px;padding:18px 18px 10px;display:flex;align-items:flex-end;gap:4%;position:relative}
+.chart .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.chart .bar i{width:8px;border-radius:8px;background:linear-gradient(#3a3f5c,#1e2133);transition:height .8s cubic-bezier(.2,.8,.2,1)}
+.chart .bar:nth-child(5) i{background:linear-gradient(#8f86ff,var(--accent))}
+.chart .bar span{font-size:10px;color:var(--muted)}
+.ringwrap{display:grid;place-items:center;padding:6px 0 14px}
+.ring{width:150px;height:150px;border-radius:50%;box-shadow:var(--raised);display:grid;place-items:center;position:relative}
+.ring .arc{position:absolute;inset:14px;border-radius:50%;background:conic-gradient(var(--accent) 0 var(--p,72%),transparent 0);
+  -webkit-mask:radial-gradient(circle,transparent 52%,#000 53%);mask:radial-gradient(circle,transparent 52%,#000 53%);transition:--p 1s}
+.ring .core{width:84px;height:84px;border-radius:50%;box-shadow:var(--pressed);display:grid;place-items:center;font-weight:700;font-size:18px;z-index:1}
+.legend{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.legend b{display:block;color:var(--text);font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--muted);font-weight:600;text-align:left;padding:8px 10px}
+td{padding:12px 10px}
+tbody tr td{border-top:1px solid #d6d9e4}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;box-shadow:var(--pressed-sm);font-size:11px;font-weight:700}
+.toggle{width:52px;height:28px;border-radius:999px;box-shadow:var(--pressed-sm);position:relative;flex:none}
+.toggle::after{content:"";position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:var(--bg);box-shadow:var(--raised-sm);transition:.25s}
+.toggle[aria-checked=true]::after{left:28px;background:var(--accent);box-shadow:0 0 10px #6c5ce799}
+.search{display:flex;align-items:center;gap:8px;padding:10px 14px}
+.search input{border:0;background:none;font:inherit;color:var(--text);width:100%;outline:none}
+
+/* ===== phones ===== */
+.phones{display:flex;gap:46px;justify-content:center;flex-wrap:wrap;padding:20px 0 10px}
+.phone{width:290px;height:590px;border-radius:42px;padding:12px;box-shadow:var(--raised);position:relative}
+.screen{width:100%;height:100%;border-radius:32px;overflow:hidden;position:relative}
+/* dark top + light bottom joined by a wave */
+.p1 .screen{background:var(--bg)}
+.p1 .top{position:absolute;inset:0 0 46% 0;background:var(--dark);color:#fff;padding:22px 20px;border-bottom-right-radius:90px}
+.p1 .wave{position:absolute;left:0;right:0;top:54%;height:70px;background:var(--dark)}
+.p1 .wave::after{content:"";position:absolute;inset:0;background:var(--bg);border-top-left-radius:70px}
+.topbar{display:flex;justify-content:space-between;align-items:center;font-size:14px;opacity:.85}
+.dsearch{margin-top:16px;border-radius:12px;padding:9px 12px;font-size:12px;color:#8a8fb5;box-shadow:inset 3px 3px 6px var(--dlo),inset -3px -3px 6px var(--dhi)}
+.doc{margin-top:18px;display:flex;gap:12px;align-items:center;padding:16px;border-radius:20px;box-shadow:5px 5px 12px var(--dlo),-5px -5px 12px var(--dhi)}
+.doc .ic{width:44px;height:44px;border-radius:12px;background:linear-gradient(145deg,#ff8ad8,#b04cff);box-shadow:0 6px 16px #b04cff66}
+.doc b{font-size:17px}.doc small{display:block;font-size:11px;color:#9aa0c8}
+.prog{margin-top:14px;height:6px;border-radius:9px;box-shadow:inset 2px 2px 4px var(--dlo),inset -2px -2px 4px var(--dhi)}
+.prog i{display:block;height:100%;width:62%;border-radius:9px;background:linear-gradient(90deg,#8f86ff,#5ad1ff)}
+.apps{position:absolute;left:20px;right:20px;bottom:86px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px 12px}
+.app{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.app button{width:62px;height:62px;border-radius:18px;box-shadow:var(--raised-sm);display:grid;place-items:center}
+.app button:hover{box-shadow:6px 6px 14px var(--lo),-6px -6px 14px var(--hi)}
+.app button.on{box-shadow:var(--pressed-sm)}
+.gl{width:30px;height:30px;border-radius:9px;position:relative;box-shadow:0 5px 12px rgba(0,0,0,.18)}
+.gl::after{content:"";position:absolute;left:4px;top:3px;width:14px;height:7px;border-radius:50%;background:#fff;opacity:.6;filter:blur(1px)}
+.dock{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:62px;height:62px;border-radius:50%;box-shadow:var(--raised);display:grid;place-items:center;font-size:24px;color:var(--accent)}
+/* phone 2: light top, dark bottom */
+.p2 .screen{background:var(--dark)}
+.p2 .top{position:absolute;inset:0 0 34% 0;background:var(--bg);padding:22px 20px;border-bottom-left-radius:90px}
+.p2 .apps{top:110px;bottom:auto}
+.cal{position:absolute;left:18px;right:18px;bottom:96px;display:flex;justify-content:space-between}
+.cal button{width:36px;height:54px;border-radius:14px;background:var(--dark);color:#9aa0c8;font-size:12px;box-shadow:4px 4px 10px var(--dlo),-4px -4px 10px var(--dhi);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.cal button.on{box-shadow:inset 3px 3px 6px var(--dlo),inset -3px -3px 6px var(--dhi);color:#fff}
+.cal button.on b{color:#8f86ff}
+.p2 .dock{background:var(--dark);box-shadow:5px 5px 12px var(--dlo),-5px -5px 12px var(--dhi);color:#fff}
+.caption{text-align:center;color:var(--muted);font-size:13px;margin-top:40px}
+@media(max-width:900px){.dash{grid-template-columns:1fr}.main{grid-template-columns:1fr}.span2{grid-column:auto}.stats{grid-template-columns:1fr 1fr}.side .foot{margin-top:10px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<h1>Neumorphism / Soft UI</h1>
+<p class="lead">Everything is the same color as the background, and depth comes from two shadows. Click things: pressed = selected.</p>
+
+<section class="dash raised">
+  <aside class="side pressed" style="border-radius:24px">
+    <h4>FAN ANALYSIS</h4>
+    <div class="avatar"><span>MH</span></div>
+    <b>Maya Hollis</b><small>Creator account</small>
+    <nav class="nav" id="nav">
+      <button class="on">▦ Overview</button><button>◔ Fan data</button><button>$ Income</button>
+      <button>✎ Works</button><button>✉ Messages</button>
+    </nav>
+    <div class="foot"><button class="round" aria-label="Settings">⚙</button><button class="round" aria-label="Power">⏻</button></div>
+  </aside>
+
+  <div class="main">
+    <div class="panel raised span2">
+      <h3>Overall data <span class="search pressed" style="border-radius:12px;padding:7px 12px;width:200px"><span>⌕</span><input placeholder="Search" aria-label="Search"></span></h3>
+      <div class="stats">
+        <div class="stat raised" style="border-radius:16px"><div><small>Followers</small><b data-n="2387">0</b></div><i>👤</i></div>
+        <div class="stat raised" style="border-radius:16px"><div><small>Revenue</small><b>$<span data-n="1479">0</span></b></div><i>💳</i></div>
+        <div class="stat raised" style="border-radius:16px"><div><small>Posts</small><b data-n="156">0</b></div><i>🗂</i></div>
+        <div class="stat raised" style="border-radius:16px"><div><small>Messages</small><b data-n="382">0</b></div><i>✉</i></div>
+      </div>
+    </div>
+
+    <div class="panel raised">
+      <h3>Fan increase <span class="chips" id="range"><button class="on">Week</button><button>Month</button><button>Year</button></span></h3>
+      <div class="chart pressed" id="chart"></div>
+    </div>
+
+    <div class="panel raised">
+      <h3>Income <span style="display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)">Live <button class="toggle" role="switch" aria-checked="true" id="live" aria-label="Live updates"></button></span></h3>
+      <div class="ringwrap"><div class="ring"><div class="arc" id="arc"></div><div class="core" id="pct">72%</div></div></div>
+      <div class="legend"><div>Ads<b>$8.2k</b></div><div>Subs<b>$12.9k</b></div><div>Shop<b>$4.1k</b></div></div>
+    </div>
+
+    <div class="panel raised span2">
+      <h3>Overview of works</h3>
+      <div class="pressed" style="padding:6px 10px">
+      <table><thead><tr><th>Work</th><th>Type</th><th>Views</th><th>Status</th></tr></thead>
+        <tbody><tr><td>Morning Light</td><td>Photo set</td><td>12.4k</td><td><span class="badge" style="color:#16a34a">Live</span></td></tr>
+        <tr><td>City Loops</td><td>Video</td><td>8.1k</td><td><span class="badge" style="color:var(--accent)">Scheduled</span></td></tr>
+        <tr><td>Notes Vol. 3</td><td>Article</td><td>3.3k</td><td><span class="badge" style="color:#d97706">Draft</span></td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="phones">
+  <div class="phone p1"><div class="screen">
+    <div class="wave"></div>
+    <div class="top">
+      <div class="topbar"><span>☁</span><span>●</span><span>☰</span></div>
+      <div class="dsearch">⌕ Search</div>
+      <div class="doc"><div class="ic"></div><div><b>MyDocs</b><small>Personal cloud storage</small></div></div>
+      <div class="prog"><i></i></div><small style="font-size:10px;color:#9aa0c8;display:block;text-align:right;margin-top:6px">62 GB of 100 GB</small>
+    </div>
+    <div class="apps" id="apps1"></div>
+    <button class="dock" aria-label="Sync">⟳</button>
+  </div></div>
+
+  <div class="phone p2"><div class="screen">
+    <div class="top">
+      <div class="topbar"><span>⌕ Search</span><span>●</span><span>⚙</span></div>
+    </div>
+    <div class="apps" id="apps2"></div>
+    <div class="cal" id="cal"></div>
+    <button class="dock" aria-label="Sync">⟳</button>
+  </div></div>
+</div>
+<p class="caption">Signature moves: dark contrast panel joined by a curved edge, glossy colorful icons inside soft tiles, one purple accent for active states.</p>
+
+<script>
+// nav / chips: pressed = selected
+document.querySelectorAll('#nav, #range').forEach(g => g.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  g.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+  if (g.id === 'range') bars();
+}));
+document.querySelectorAll('.round').forEach(b => b.onclick = () => b.classList.toggle('on'));
+
+// counters
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('[data-n]').forEach(el => { const n = +el.dataset.n, t0 = performance.now(); if (still) return el.textContent = n.toLocaleString();
+  (function f(t){ const p = Math.min((t - t0) / 1400, 1); el.textContent = Math.round(n * (1 - (1 - p) ** 3)).toLocaleString(); if (p < 1) requestAnimationFrame(f); })(t0); });
+
+// bar chart
+const chart = document.getElementById('chart'), days = ['Mo','Tu','We','Th','Fr','Sa','Su','Mo','Tu'];
+chart.innerHTML = days.map(d => `<div class="bar"><i style="height:0"></i><span>${d}</span></div>`).join('');
+function bars(){ chart.querySelectorAll('i').forEach(i => i.style.height = (25 + Math.random() * 65) + '%'); }
+still ? bars() : setTimeout(bars, 100);
+
+// income ring + live toggle
+CSS.registerProperty?.({ name: '--p', syntax: '<percentage>', inherits: false, initialValue: '0%' });
+const arc = document.getElementById('arc'), pct = document.getElementById('pct'), live = document.getElementById('live');
+let timer;
+const tickRing = () => { const v = 55 + Math.round(Math.random() * 35); arc.style.setProperty('--p', v + '%'); pct.textContent = v + '%'; };
+still ? arc.style.setProperty('--p', '72%') : setTimeout(() => arc.style.setProperty('--p', '72%'), 200);
+const startLive = () => timer = setInterval(tickRing, 2200); if (!still) startLive(); else live.setAttribute('aria-checked', 'false');
+live.onclick = () => { const on = live.getAttribute('aria-checked') !== 'true'; live.setAttribute('aria-checked', on); on ? startLive() : clearInterval(timer); };
+
+// glossy app icons
+const icons = [['Assets','#ffb648','#ff7a1a'],['Stuff','#ffd24d','#f59e0b'],['Mountain','#5ad1ff','#2563eb'],['Record','#ff8ad8','#e11d8f'],['Results','#7ee2b8','#0e9f6e'],['Project','#b9a6ff','#6c5ce7']];
+const icons2 = [['Archive','#5ad1ff','#3b5bff'],['Illustration','#ffd24d','#ff7a1a'],['Artwork','#ff8ad8','#7c3aed'],['Site','#b9a6ff','#6c5ce7'],['Fixtype','#7ee2b8','#0ea5e9'],['App','#ff9b9b','#e11d48']];
+const mk = list => list.map(([n, a, b]) => `<div class="app"><button aria-label="${n}"><span class="gl" style="background:linear-gradient(145deg,${a},${b})"></span></button>${n}</div>`).join('');
+apps1.innerHTML = mk(icons); apps2.innerHTML = mk(icons2);
+document.querySelectorAll('.apps').forEach(g => g.addEventListener('click', e => { const b = e.target.closest('button'); if (b) b.classList.toggle('on'); }));
+cal.innerHTML = [['Mo',10],['Tu',11],['We',12],['Th',13],['Fr',14],['Sa',15]].map(([d, n], i) => `<button class="${i === 2 ? 'on' : ''}">${d}<b>${n}</b></button>`).join('');
+cal.onclick = e => { const b = e.target.closest('button'); if (b) cal.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); };
+</script>
+</body>
+</html>

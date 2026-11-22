@@ -21,4 +21,4 @@ Get-ChildItem -Path $src -Directory | ForEach-Object {
 }
 
 Write-Host ""
-Write-Host "Done. Open a new Claude Code session and type /animated-landing" -ForegroundColor Cyan
+Write-Host "Done. Open a new Claude Code session and type / to see the skills (e.g. /animated-landing, /bento-dark-grid)" -ForegroundColor Cyan

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Claymorphism UI Sample</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4efff;--ink:#2b2350;--muted:#5f5885;--accent:#7c5cff;
+  --pink:#ffb3d1;--peach:#ffcfa8;--mint:#b8f0d8;--sky:#b9dcff;--lilac:#d7c4ff;--lemon:#fff0a8}
+*{margin:0;padding:0;box-sizing:border-box}
+html{overflow-x:clip}
+body{background:var(--bg);color:var(--ink);font-family:Nunito,"Segoe UI",system-ui,sans-serif;padding:80px 4vw 70px;overflow-x:hidden;position:relative}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.6;z-index:-1}
+.clay{border-radius:32px;background:var(--c,var(--lilac));
+  box-shadow:18px 24px 40px rgba(80,50,160,.18),inset -10px -10px 20px rgba(0,0,0,.08),inset 10px 10px 20px rgba(255,255,255,.7);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s}
+button{font:inherit;color:inherit;border:0;cursor:pointer}
+button:focus-visible{outline:none;box-shadow:0 0 0 4px #fff,0 0 0 7px var(--accent)!important}
+.lift:hover{transform:translateY(-5px)}
+.press:active{transform:scale(.95)}
+.gloss{position:absolute;left:18%;top:12%;width:30%;height:18%;border-radius:50%;background:#fff;opacity:.7;filter:blur(2px)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;max-width:1150px;margin:0 auto 70px}
+.tag{display:inline-block;padding:8px 16px;font-weight:800;font-size:13px;border-radius:999px;--c:var(--lemon)}
+h1{font-size:clamp(40px,6vw,74px);line-height:1;font-weight:900;letter-spacing:-.02em;margin:18px 0}
+h1 span{color:var(--accent)}
+.hero p{font-size:19px;color:var(--muted);max-width:480px;line-height:1.5}
+.ctas{display:flex;gap:16px;margin-top:30px;flex-wrap:wrap}
+.btn{padding:18px 30px;border-radius:999px;font-weight:900;font-size:17px}
+.btn.primary{--c:var(--accent);color:#fff;box-shadow:14px 18px 30px rgba(124,92,255,.35),inset -8px -8px 16px rgba(40,0,120,.25),inset 8px 8px 16px rgba(255,255,255,.35)}
+.btn.ghost{--c:#fff}
+.scene{position:relative;height:440px}
+.obj{position:absolute;display:grid;place-items:center;animation:bob 5s ease-in-out infinite}
+@keyframes bob{50%{translate:0 -14px}}
+.phone{width:210px;height:380px;left:50%;top:30px;margin-left:-105px;border-radius:44px;--c:#fff;padding:16px;display:flex;flex-direction:column;gap:12px;animation-duration:6s}
+.phone .row{height:54px;border-radius:20px;display:flex;align-items:center;gap:10px;padding:0 12px;font-weight:800;font-size:13px}
+.phone .dot{width:30px;height:30px;border-radius:50%;flex:none;box-shadow:inset -4px -4px 8px rgba(0,0,0,.1),inset 4px 4px 8px #fff9}
+.bal{height:110px!important;flex-direction:column;align-items:flex-start!important;justify-content:center;padding:0 16px!important}
+.bal small{font-weight:700;color:var(--muted)}.bal b{font-size:28px}
+.coin{width:90px;height:90px;border-radius:50%;left:4%;top:40px;--c:var(--lemon);font-size:40px;font-weight:900;color:#c99a00;animation-delay:-1s}
+.heart{width:76px;height:76px;border-radius:26px;right:6%;top:20px;--c:var(--pink);font-size:34px;animation-delay:-2.5s}
+.star{width:64px;height:64px;border-radius:50%;right:2%;bottom:60px;--c:var(--mint);font-size:30px;animation-delay:-3.5s}
+.cube{width:80px;height:80px;border-radius:24px;left:8%;bottom:40px;--c:var(--sky);transform:rotate(-12deg);font-size:32px;animation-delay:-.5s}
+
+/* sections */
+h2{font-size:clamp(28px,4vw,44px);font-weight:900;text-align:center;margin:30px 0 30px}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px;max-width:1150px;margin:0 auto 70px}
+.fc{padding:30px;position:relative}
+.fc .ic{width:66px;height:66px;border-radius:22px;display:grid;place-items:center;font-size:30px;margin-bottom:18px;position:relative;--c:#fff}
+.fc h3{font-size:22px;font-weight:900}.fc p{color:var(--muted);margin-top:6px;line-height:1.5;font-weight:600}
+
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:1050px;margin:0 auto 70px;align-items:center}
+.plan{padding:34px 28px;text-align:center;--c:#fff;cursor:pointer}
+.plan.sel{--c:var(--lilac);transform:scale(1.05)}
+.plan.sel:hover{transform:scale(1.05) translateY(-5px)}
+.plan h3{font-size:20px;font-weight:900}.plan .price{font-size:52px;font-weight:900;margin:10px 0}.plan .price small{font-size:16px;color:var(--muted)}
+.plan ul{list-style:none;text-align:left;margin:18px 0 24px;display:grid;gap:10px;font-weight:700;color:var(--muted)}
+.plan li::before{content:"●";color:var(--accent);margin-right:8px}
+.plan .btn{width:100%;padding:14px}
+
+.controls{display:flex;flex-wrap:wrap;gap:28px;justify-content:center;max-width:1050px;margin:0 auto}
+.ctl{padding:26px;--c:#fff;display:flex;flex-direction:column;gap:18px;min-width:280px}
+.ctl label{font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.sw{width:74px;height:40px;border-radius:999px;position:relative;--c:#ece6ff;box-shadow:inset 5px 5px 10px rgba(80,50,160,.15),inset -5px -5px 10px #fff}
+.sw::after{content:"";position:absolute;top:5px;left:5px;width:30px;height:30px;border-radius:50%;background:#fff;
+  box-shadow:4px 6px 10px rgba(80,50,160,.25),inset -3px -3px 6px rgba(0,0,0,.08),inset 3px 3px 6px #fff;transition:left .35s cubic-bezier(.34,1.56,.64,1),background .3s}
+.sw[aria-checked=true]{--c:var(--mint)}.sw[aria-checked=true]::after{left:39px;background:#3ccf91}
+.input{border-radius:999px;padding:16px 22px;background:#fff;box-shadow:inset 6px 6px 12px rgba(80,50,160,.1),inset -6px -6px 12px #fff;font:700 15px Nunito,sans-serif;border:0;color:var(--ink);width:100%}
+.input:focus{outline:3px solid var(--accent)}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{padding:10px 18px;border-radius:999px;font-weight:800;font-size:14px}
+.chip[aria-pressed=true]{--c:var(--accent);color:#fff}
+.tabbar{display:flex;gap:10px;padding:10px;border-radius:999px;--c:#fff;justify-content:space-between}
+.tabbar button{width:52px;height:52px;border-radius:50%;font-size:22px;background:transparent;transition:.3s}
+.tabbar button.on{background:var(--pink);box-shadow:6px 8px 14px rgba(255,100,160,.35),inset -4px -4px 8px rgba(0,0,0,.08),inset 4px 4px 8px #fff9}
+@media(max-width:860px){.hero,.pricing{grid-template-columns:1fr}.plan.sel{transform:none}.scene{height:420px}}
+@media (prefers-reduced-motion:reduce){.obj{animation:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="blob" style="width:520px;height:520px;background:#ffc4e1;left:-160px;top:-120px"></div>
+<div class="blob" style="width:520px;height:520px;background:#c4e4ff;right:-180px;top:300px"></div>
+
+<section class="hero">
+  <div>
+    <span class="tag clay">✨ Claymorphism</span>
+    <h1>Money app that feels <span>soft & friendly</span></h1>
+    <p>Puffy pastel elements with their own color, a big floating shadow and two inner shadows. Press any button and it squishes.</p>
+    <div class="ctas"><button class="btn primary clay lift press">Get the app</button><button class="btn ghost clay lift press">See plans</button></div>
+  </div>
+  <div class="scene" aria-hidden="true">
+    <div class="obj clay coin"><span class="gloss"></span>$</div>
+    <div class="obj clay heart"><span class="gloss"></span>💗</div>
+    <div class="obj clay star"><span class="gloss"></span>⭐</div>
+    <div class="obj clay cube"><span class="gloss"></span>🎁</div>
+    <div class="obj clay phone">
+      <div class="row bal clay" style="--c:var(--lilac)"><small>Total balance</small><b>$4,280</b></div>
+      <div class="row clay" style="--c:var(--mint)"><span class="dot" style="background:#3ccf91"></span>Salary +$2,400</div>
+      <div class="row clay" style="--c:var(--peach)"><span class="dot" style="background:#ff9a52"></span>Groceries −$84</div>
+      <div class="row clay" style="--c:var(--sky)"><span class="dot" style="background:#4aa3ff"></span>Savings +$300</div>
+    </div>
+  </div>
+</section>
+
+<h2>Features</h2>
+<section class="feat">
+  <div class="fc clay lift" style="--c:var(--pink)"><div class="ic clay">🐷</div><h3>Smart savings</h3><p>Round up every purchase into a savings pot.</p></div>
+  <div class="fc clay lift" style="--c:var(--mint)"><div class="ic clay">📊</div><h3>Clear insights</h3><p>See where your money goes in one glance.</p></div>
+  <div class="fc clay lift" style="--c:var(--sky)"><div class="ic clay">🔒</div><h3>Safe & secure</h3><p>Bank-level encryption on every transfer.</p></div>
+  <div class="fc clay lift" style="--c:var(--peach)"><div class="ic clay">🎯</div><h3>Goals</h3><p>Set a target and watch the jar fill up.</p></div>
+</section>
+
+<h2>Pick a plan</h2>
+<section class="pricing" id="plans">
+  <div class="plan clay lift" tabindex="0"><h3>Starter</h3><div class="price">$0<small>/mo</small></div><ul><li>1 savings pot</li><li>Basic insights</li><li>Email support</li></ul><button class="btn clay press" style="--c:var(--lemon)">Choose</button></div>
+  <div class="plan clay lift sel" tabindex="0"><h3>Plus ⭐</h3><div class="price">$6<small>/mo</small></div><ul><li>Unlimited pots</li><li>Smart insights</li><li>Priority chat</li></ul><button class="btn primary clay press">Choose</button></div>
+  <div class="plan clay lift" tabindex="0"><h3>Family</h3><div class="price">$12<small>/mo</small></div><ul><li>5 members</li><li>Shared goals</li><li>Kids cards</li></ul><button class="btn clay press" style="--c:var(--lemon)">Choose</button></div>
+</section>
+
+<h2>Controls</h2>
+<section class="controls">
+  <div class="ctl clay">
+    <label>Notifications <button class="sw clay" role="switch" aria-checked="true" aria-label="Notifications"></button></label>
+    <label>Dark mode <button class="sw clay" role="switch" aria-checked="false" aria-label="Dark mode"></button></label>
+    <input class="input" placeholder="Search transactions…" aria-label="Search">
+  </div>
+  <div class="ctl clay">
+    <b>Categories</b>
+    <div class="chips" id="chips"><button class="chip clay press" aria-pressed="true" style="--c:var(--pink)">Food</button><button class="chip clay press" aria-pressed="false" style="--c:var(--mint)">Travel</button><button class="chip clay press" aria-pressed="false" style="--c:var(--sky)">Bills</button><button class="chip clay press" aria-pressed="false" style="--c:var(--peach)">Fun</button></div>
+    <div class="tabbar clay" id="tabs"><button class="on" aria-label="Home">🏠</button><button aria-label="Cards">💳</button><button aria-label="Stats">📈</button><button aria-label="Profile">🙂</button></div>
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('.sw').forEach(s => s.onclick = () => s.setAttribute('aria-checked', s.getAttribute('aria-checked') !== 'true'));
+document.querySelectorAll('.chip').forEach(c => { const base = c.style.getPropertyValue('--c');
+  c.onclick = () => c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') !== 'true'); });
+tabs.onclick = e => { const b = e.target.closest('button'); if (b) tabs.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); };
+const plans = [...document.querySelectorAll('.plan')];
+plans.forEach(p => { const pick = () => plans.forEach(x => x.classList.toggle('sel', x === p)); p.onclick = pick; p.onkeydown = e => (e.key === 'Enter' || e.key === ' ') && pick(); });
+</script>
+</body>
+</html>

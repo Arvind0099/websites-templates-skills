@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bento Grid Sample</title>
+<style>
+:root{--bg:#07070b;--tile:#101017;--tile2:#16161f;--line:rgba(255,255,255,.08);--text:#f3f3f7;--muted:#8b8ba0;--violet:#8b5cf6;--teal:#2dd4bf;--green:#22c55e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(70% 50% at 70% 10%,#0f3b3a 0%,transparent 60%),radial-gradient(60% 50% at 10% 90%,#2a1452 0%,transparent 60%),var(--bg);
+  color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,sans-serif;padding:80px 4vw 60px;min-height:100vh}
+h1{font-size:clamp(32px,5vw,54px);letter-spacing:-.02em;text-align:center}
+.lead{color:var(--muted);text-align:center;margin:8px auto 40px;max-width:620px;line-height:1.5}
+.toggle{display:flex;justify-content:center;gap:6px;margin:-20px 0 30px}
+.toggle button{background:#16161f;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:7px 14px;font:600 13px inherit;cursor:pointer}
+.toggle button.on{color:#fff;border-color:#8b5cf688;background:#1c1530}
+.bento{display:grid;gap:14px;grid-template-columns:repeat(6,1fr);grid-auto-rows:118px;max-width:1120px;margin:0 auto 50px;padding:14px;border-radius:34px;
+  background:rgba(10,10,15,.85);border:1px solid var(--line);box-shadow:0 40px 120px rgba(0,0,0,.6)}
+.tile{position:relative;background:linear-gradient(180deg,var(--tile2),var(--tile));border:1px solid var(--line);border-radius:22px;padding:20px;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s;opacity:0;translate:0 24px}
+.tile.in{opacity:1;translate:0 0;transition:opacity .6s,translate .6s cubic-bezier(.2,.8,.2,1),transform .3s,border-color .3s}
+.tile:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.16)}
+.tile::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(139,92,246,.16),transparent 60%)}
+.tile:hover::before{opacity:1}
+.feat{border:1px solid transparent;background:linear-gradient(var(--tile),var(--tile)) padding-box,linear-gradient(140deg,rgba(139,92,246,.95),rgba(45,212,191,.25) 40%,transparent 70%) border-box}
+.c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}
+.r1{grid-row:span 1}.r2{grid-row:span 2}.r3{grid-row:span 3}.r4{grid-row:span 4}
+.lbl{font-size:13px;color:var(--muted)}
+.big{font-size:44px;font-weight:650;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:4px}
+.pill{display:inline-block;font-size:11px;border:1px solid var(--line);border-radius:999px;padding:3px 9px;color:#cfcfe0}
+.t-price h3{font-size:19px;line-height:1.3;margin:14px 0 18px;font-weight:600}
+.t-price .price{font-size:34px;font-weight:700}.t-price .price small{font-size:12px;color:var(--muted);font-weight:400}
+.btn{display:inline-block;margin-top:14px;background:#fff;color:#000;border-radius:10px;padding:9px 16px;font-weight:700;font-size:13px;text-decoration:none}
+.logos{display:flex;gap:10px;margin-top:16px}
+.logos span{width:46px;height:46px;border-radius:12px;background:#1c1c26;border:1px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:18px}
+.check{display:flex;align-items:center;gap:12px;height:100%;padding:0 6px}
+.check i{font-style:normal;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#2dd4bf);display:grid;place-items:center;color:#000;font-weight:900;flex:none}
+.t-grad{background:linear-gradient(120deg,#5b3cc4,#3b82f6 70%,#2dd4bf);border:0}
+.t-grad .lbl{color:#e8e4ff}
+.chip{position:absolute;left:50%;top:44%;translate:-50% -50%;width:110px;height:110px;perspective:500px}
+.chip div{width:100%;height:100%;border-radius:16px;background:linear-gradient(145deg,#2a2a36,#0d0d12);border:1px solid #ffffff22;transform:rotateX(55deg) rotateZ(45deg);
+  box-shadow:0 30px 40px #000,0 0 50px #2dd4bf33;display:grid;place-items:center}
+.chip div::after{content:"";width:46px;height:46px;border-radius:10px;background:radial-gradient(circle at 30% 30%,#5eead4,#0f766e);box-shadow:0 0 20px #2dd4bfaa}
+.gridlines{position:absolute;inset:0;background-image:linear-gradient(#ffffff0a 1px,transparent 1px),linear-gradient(90deg,#ffffff0a 1px,transparent 1px);background-size:24px 24px;
+  mask-image:radial-gradient(circle at 50% 40%,#000,transparent 70%)}
+.t-chip .foot{position:absolute;bottom:18px;left:0;right:0;text-align:center}
+.t-chip .foot b{font-size:30px}
+pre{font:12.5px/1.7 ui-monospace,Consolas,monospace;color:#c9c9d9;white-space:pre;overflow:hidden}
+pre .ln{color:#4a4a5c;user-select:none;display:inline-block;width:22px}
+.k{color:#c084fc}.s{color:#5eead4}.f{color:#93c5fd}.cmt{color:#5b5b70}
+.cursor{display:inline-block;width:7px;height:14px;background:#a78bfa;vertical-align:middle;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.stats-row{position:absolute;left:20px;right:20px;bottom:16px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.stats-row b{color:var(--text);font-size:20px;margin-left:6px}
+.powered{display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.powered .ai{width:38px;height:38px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;margin-bottom:10px}
+/* analytics bento */
+.bar{height:6px;border-radius:9px;background:#1e1e29;margin-top:18px;overflow:hidden}.bar i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,var(--violet),#c084fc);transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.runchip{display:inline-flex;gap:8px;align-items:center;background:#16161f;border:1px solid var(--line);border-radius:10px;padding:7px 12px;font-size:13px}
+.runchip i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.cloud{display:grid;place-items:center;height:100%}
+.cloud div{width:64px;height:64px;border-radius:18px;background:linear-gradient(145deg,#a78bfa,#6d28d9);display:grid;place-items:center;font-size:28px;box-shadow:0 0 40px #8b5cf688,inset 0 2px 0 #fff6}
+.t-exec{background:linear-gradient(180deg,#2a1a4f,#16101f 70%);border-color:#8b5cf655}
+.pipe{position:absolute;left:20px;right:20px;top:110px;bottom:16px}
+.pipe svg{width:100%;height:100%}
+.pipe span{position:absolute;font-size:11px;color:#c4b5fd;background:#1d1433;padding:3px 7px;border-radius:6px;border:1px solid #8b5cf644}
+.list{margin-top:8px;display:flex;flex-direction:column;gap:3px}
+.list div{display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--muted);padding:5px 10px;border-radius:9px;border:1px solid transparent}
+.list div i{width:16px;height:16px;border-radius:5px;background:#22222e;flex:none}
+.list div.hl{background:#1a2b22;border-color:#22c55e55;color:#d1fae5}.list div.hl i{background:var(--green)}
+.spark{position:absolute;left:0;right:0;bottom:0;height:60px}
+.light{--bg:#f2f2f5;--tile:#fff;--tile2:#fff;--line:#e4e4ea;--text:#16161d;--muted:#6b6b7b}
+.light .bento{background:#fafafc;box-shadow:0 30px 80px rgba(0,0,0,.08)}
+.light .tile{box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05)}
+.light .logos span,.light .runchip,.light .bar,.light .toggle button{background:#f1f1f5}
+.light pre{color:#333}.light .chip div{background:linear-gradient(145deg,#fff,#e5e5ee)}
+.light .t-exec{background:linear-gradient(180deg,#ede7ff,#fff)}.light .pipe span{background:#f3efff;color:#6d28d9}
+.light .list div.hl{background:#e9f9ef;color:#14532d}.light .btn{background:#111;color:#fff}.light .logos span{color:#222}
+body.light{background:#f2f2f5}
+.light .toggle button.on{color:#4c1d95;background:#ede7ff}
+@media(max-width:900px){.bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:110px}.c2,.c3,.c4,.c6{grid-column:span 2}.r3,.r4{grid-row:span 3}}
+@media (prefers-reduced-motion:reduce){.tile{opacity:1;translate:none;transition:none}}
+</style>
+</head>
+<body>
+<h1>Bento Grid</h1>
+<p class="lead">One container, tiles of different sizes, one idea per tile. Hover for the spotlight. Resize the window to see it stack on mobile.</p>
+<div class="toggle"><button class="on" data-m="dark">Dark</button><button data-m="light">Light</button></div>
+
+<!-- Bento 1: product feature page -->
+<section class="bento" aria-label="Product features">
+  <div class="tile feat c2 r3 t-price"><span class="pill">New</span><h3>Give your whole team an AI pair programmer</h3>
+    <div class="price">$19 <small>per user / month</small></div><a class="btn" href="#">Start free trial</a></div>
+  <div class="tile c2 r2"><b style="font-size:15px">Works in your favorite editor</b><p class="lbl" style="margin-top:4px">Install in one click</p>
+    <div class="logos"><span style="color:#60a5fa">◆</span><span style="color:#f472b6">✦</span><span style="color:#a78bfa">◈</span><span style="color:#2dd4bf">N</span></div></div>
+  <div class="tile c2 r3 t-chip"><div class="gridlines"></div><div class="chip"><div></div></div>
+    <div class="foot"><b data-n="55">0</b><b>%</b><div class="lbl">faster coding</div></div></div>
+  <div class="tile c2 r1 t-grad"><div class="check"><i>✓</i><div><b>Now available</b><div class="lbl">for all business plans</div></div></div></div>
+  <div class="tile c4 r3"><pre id="code"></pre>
+    <div class="stats-row"><span>⬤ Code written by AI<b data-n="46">0</b><b>%</b></span><span>More than <b style="font-size:14px">20 languages</b></span></div></div>
+  <div class="tile c2 r2"><div class="powered"><div class="ai">✺</div><div class="lbl">Powered by</div><b>Your AI model</b></div></div>
+</section>
+
+<!-- Bento 2: analytics -->
+<section class="bento" aria-label="Test analytics">
+  <div class="tile c2 r2"><div class="lbl">Modules tested</div><div class="big" data-n="18540">0</div>
+    <svg class="spark" viewBox="0 0 200 60" preserveAspectRatio="none" aria-label="Rising trend"><defs><linearGradient id="sg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8b5cf6" stop-opacity=".45"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></linearGradient></defs>
+      <path d="M0 50 L25 44 L50 46 L75 34 L100 38 L125 24 L150 28 L175 14 L200 10 L200 60 L0 60Z" fill="url(#sg)"/><path class="draw" d="M0 50 L25 44 L50 46 L75 34 L100 38 L125 24 L150 28 L175 14 L200 10" fill="none" stroke="#a78bfa" stroke-width="2"/></svg></div>
+  <div class="tile c4 r2"><div class="lbl">Total tests duration</div><div class="big" data-n="35978354">0</div>
+    <div class="bar"><i id="pbar"></i></div><div class="lbl" style="margin-top:10px">⟳ Running…</div></div>
+  <div class="tile c2 r2"><div class="cloud"><div>☁</div></div></div>
+  <div class="tile c2 r2"><span class="runchip"><i></i>Run #46,790,490 <span class="lbl">2.1s</span></span>
+    <div class="lbl" style="margin-top:22px">Lines of code covered</div><div class="big" style="font-size:36px" data-n="3700490">0</div></div>
+  <div class="tile c2 r4 t-exec"><div class="lbl" style="color:#c4b5fd">Test executions per day</div><div class="big" data-n="12450">0</div>
+    <div class="pipe"><svg viewBox="0 0 200 260" preserveAspectRatio="none"><path class="draw" d="M30 0 V260 M30 70 C30 100 120 90 120 130 V260 M120 170 C120 200 170 190 170 230 V260" fill="none" stroke="#a78bfa" stroke-width="2"/></svg>
+      <span style="left:30%;top:18%">Activity timeline</span><span style="left:50%;top:44%">Automations</span><span style="left:40%;top:76%">Parallel runs</span></div></div>
+  <div class="tile c2 r2"><div class="lbl">Records created</div><div class="big" style="font-size:36px" data-n="12858476">0</div></div>
+  <div class="tile c2 r2"><div class="lbl">Recent suites</div><div class="list"><div><i></i>Checkout flow</div><div class="hl"><i></i>Payments API ✓</div><div><i></i>Login & SSO</div><div><i></i>Search index</div></div></div>
+</section>
+
+<script>
+// code tile
+const lines = [['<span class="k">import</span> { createApp } <span class="k">from</span> <span class="s">"./app"</span>'], ['<span class="cmt">// AI suggestion ↓</span>'],
+  ['<span class="k">const</span> app = <span class="f">createApp</span>({'], ['  port: <span class="s">3000</span>,'], ['  routes: [<span class="s">"/api"</span>, <span class="s">"/health"</span>],'], ['});'],
+  ['<span class="k">await</span> app.<span class="f">listen</span>()<span class="cursor"></span>']];
+document.getElementById('code').innerHTML = lines.map((l, i) => `<span class="ln">${i + 1}</span>${l[0]}`).join('\n');
+
+// spotlight
+document.querySelectorAll('.tile').forEach(t => t.addEventListener('pointermove', e => {
+  const r = t.getBoundingClientRect(); t.style.setProperty('--mx', e.clientX - r.left + 'px'); t.style.setProperty('--my', e.clientY - r.top + 'px'); }));
+
+// entrance stagger + counters + chart draw
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const count = el => { const n = +el.dataset.n, t0 = performance.now(); if (still) return el.textContent = n.toLocaleString();
+  (function f(t){ const p = Math.min((t - t0) / 1600, 1); el.textContent = Math.round(n * (1 - (1 - p) ** 4)).toLocaleString(); if (p < 1) requestAnimationFrame(f); })(t0); };
+if (!still) document.querySelectorAll('.draw').forEach(p => { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; p.style.transition = 'stroke-dashoffset 1.8s ease'; });
+const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target);
+  [...e.target.children].forEach((t, i) => still ? t.classList.add('in') : setTimeout(() => t.classList.add('in'), i * 70));
+  e.target.querySelectorAll('[data-n]').forEach(count);
+  e.target.querySelectorAll('.draw').forEach(p => setTimeout(() => p.style.strokeDashoffset = 0, 300));
+  const pb = e.target.querySelector('#pbar'); if (pb) setTimeout(() => pb.style.width = '64%', still ? 0 : 300); }), { threshold: .15 });
+if (still) document.querySelectorAll('.bento').forEach(b => { [...b.children].forEach(t => t.classList.add('in')); b.querySelectorAll('[data-n]').forEach(count); });
+document.querySelectorAll('.bento').forEach(b => io.observe(b));
+
+// light / dark
+document.querySelectorAll('.toggle button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.toggle button').forEach(x => x.classList.toggle('on', x === b));
+  document.body.classList.toggle('light', b.dataset.m === 'light'); });
+</script>
+</body>
+</html>

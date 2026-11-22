@@ -25,4 +25,4 @@ for d in "$DIR"/skills/*/; do
 done
 
 echo ""
-echo "Done. Open a new Claude Code session and type /animated-landing"
+echo "Done. Open a new Claude Code session and type / to see the skills (e.g. /animated-landing, /bento-dark-grid)"

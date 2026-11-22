@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D Glass Interfaces Sample</title>
+<style>
+:root{--deep:#070b2e;--navy:#0c1a6b;--blue:#2447ff;--electric:#3d7bff;--violet:#7a3cff;--pink:#ff4fd8;--cyan:#58e1ff;
+  --line:rgba(255,255,255,.22);--text:#eef1ff;--muted:#a9b3e6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(120% 70% at 50% 0%,#2a1d8f 0%,#14125a 35%,#070b2e 75%) fixed;color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,sans-serif;padding:80px 4vw 60px;overflow-x:hidden}
+h1{font-size:clamp(32px,5vw,54px);letter-spacing:-.02em;text-align:center}
+.lead{color:var(--muted);text-align:center;margin:8px auto 40px;max-width:640px;line-height:1.5}
+h2{font-size:14px;letter-spacing:.2em;color:var(--cyan);text-align:center;margin:60px 0 24px;font-weight:600}
+.stage{max-width:1100px;margin:0 auto;border-radius:34px;padding:40px 28px;background:radial-gradient(90% 90% at 50% 20%,#1d3dff 0%,#0c1a6b 45%,#08104a 100%);
+  box-shadow:0 40px 100px rgba(5,10,80,.6),inset 0 1px 0 rgba(255,255,255,.15);position:relative;overflow:hidden}
+
+/* ===== onboarding trio ===== */
+.trio{display:flex;gap:4%;justify-content:center;align-items:flex-start;perspective:1000px}
+.ob{width:min(240px,30%);aspect-ratio:9/16;border-radius:24px;border:1px solid var(--line);padding:18px 14px;text-align:center;
+  background:linear-gradient(165deg,rgba(90,120,255,.45),rgba(20,40,170,.25) 55%,rgba(10,20,110,.35));backdrop-filter:blur(14px);
+  box-shadow:0 30px 70px rgba(5,10,90,.55),inset 0 1px 0 rgba(255,255,255,.3);display:flex;flex-direction:column;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .3s}
+.ob:nth-child(2){margin-top:40px}
+.ob:hover{transform:translateY(-8px) rotateX(4deg);border-color:rgba(255,255,255,.5)}
+.ob .obj{flex:1;display:grid;place-items:center;position:relative}
+.ob .obj::before{content:"";position:absolute;width:70%;height:50%;background:var(--glow,#4d6bff);filter:blur(40px);opacity:.7;border-radius:50%}
+.ob h3{font-size:15px;margin:10px 0 6px;display:inline-block;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.06)}
+.ob p{font-size:11px;color:var(--muted);line-height:1.5}
+.dots{display:flex;gap:5px;justify-content:center;margin-top:12px}.dots i{width:5px;height:5px;border-radius:50%;background:#fff5}.dots i.on{background:#fff;width:14px;border-radius:5px}
+
+/* ===== CSS 3D glass objects ===== */
+.float{animation:float 5s ease-in-out infinite;transform-style:preserve-3d}
+@keyframes float{50%{translate:0 -10px}}
+.tilt{transition:transform .2s ease-out}
+.gloss{position:absolute;border-radius:50%;background:#fff;filter:blur(3px);opacity:.7}
+/* wallet */
+.wallet{position:relative;width:120px;height:96px}
+.wallet .card{position:absolute;width:86px;height:56px;border-radius:12px;left:18px;top:-14px;background:linear-gradient(135deg,#b6c8ff,#5b7bff);transform:rotate(-8deg);box-shadow:inset 0 2px 0 #fff9}
+.wallet .card+.card{left:26px;top:-6px;background:linear-gradient(135deg,#ffb8f1,#c04cff);transform:rotate(4deg)}
+.wallet .back{position:absolute;inset:6px -6px -8px 6px;border-radius:22px;background:#1a2a9e}
+.wallet .body{position:absolute;inset:0;border-radius:22px;background:linear-gradient(145deg,#a9bcff 0%,#4f6dff 40%,#2238c9 100%);box-shadow:0 20px 30px rgba(0,0,60,.5),inset 0 3px 0 rgba(255,255,255,.55),inset 0 -6px 12px rgba(0,0,80,.35)}
+.wallet .clasp{position:absolute;right:-8px;top:34px;width:44px;height:30px;border-radius:12px;background:rgba(255,255,255,.2);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.6)}
+.wallet .clasp::after{content:"";position:absolute;left:10px;top:8px;width:12px;height:12px;border-radius:50%;background:linear-gradient(145deg,#fff,#9fd8ff)}
+/* camera */
+.camera{position:relative;width:126px;height:88px}
+.camera .back{position:absolute;inset:6px -6px -8px 6px;border-radius:20px;background:#1a2a9e}
+.camera .body{position:absolute;inset:0;border-radius:20px;background:linear-gradient(145deg,#c9d6ff,#6d86ff 40%,#2a40d6);box-shadow:0 20px 30px rgba(0,0,60,.5),inset 0 3px 0 rgba(255,255,255,.6)}
+.camera .top{position:absolute;left:16px;top:-12px;width:36px;height:16px;border-radius:6px 6px 0 0;background:linear-gradient(#a9bcff,#5b7bff)}
+.camera .lens{position:absolute;left:33px;top:14px;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#9be7ff 0%,#3550ff 30%,#0a0f5a 70%);
+  box-shadow:0 0 0 6px rgba(255,255,255,.25),0 0 0 9px #7a3cff,0 0 25px #7a3cffaa}
+.camera .lens::after{content:"";position:absolute;left:14px;top:12px;width:14px;height:9px;border-radius:50%;background:#fff;opacity:.85;filter:blur(1px)}
+.camera .flash{position:absolute;right:12px;top:12px;width:14px;height:10px;border-radius:4px;background:linear-gradient(#fff,#ffd6f6)}
+/* shield + lock */
+.shield{position:relative;width:110px;height:126px}
+.shield .s{position:absolute;inset:0;clip-path:path("M55 0 L110 20 L104 70 Q95 108 55 126 Q15 108 6 70 L0 20 Z");background:linear-gradient(160deg,#c5d2ff,#5b7bff 45%,#2238c9)}
+.shield .s2{position:absolute;inset:12px;clip-path:path("M43 0 L86 16 L81 55 Q74 85 43 100 Q12 85 5 55 L0 16 Z");background:rgba(255,255,255,.16);backdrop-filter:blur(4px)}
+.lock{position:absolute;left:30px;top:52px;width:52px;height:42px;border-radius:10px;background:linear-gradient(145deg,#e8ecff,#8ea2ff);box-shadow:0 10px 20px rgba(0,0,60,.5),inset 0 2px 0 #fff}
+.lock::before{content:"";position:absolute;left:10px;top:-22px;width:32px;height:30px;border:7px solid #ff7be5;border-bottom:0;border-radius:18px 18px 0 0}
+.lock::after{content:"";position:absolute;left:22px;top:14px;width:8px;height:14px;border-radius:4px;background:#2238c9}
+.pw{position:absolute;right:-26px;top:6px;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);font-size:10px;letter-spacing:2px;backdrop-filter:blur(6px)}
+
+/* ===== carousel ===== */
+.car{position:relative;height:360px;display:flex;justify-content:center;align-items:center}
+.slide{position:absolute;width:min(380px,70%);height:300px;border-radius:26px;border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(80,110,255,.4),rgba(15,25,120,.35));backdrop-filter:blur(12px);display:grid;place-items:center;
+  transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s,filter .6s;box-shadow:0 30px 70px rgba(5,10,90,.55),inset 0 1px 0 rgba(255,255,255,.3);cursor:pointer}
+.slide .lbl{position:absolute;bottom:16px;font-size:13px;color:var(--muted)}
+.slide::before{content:"";position:absolute;width:55%;height:45%;background:var(--glow);filter:blur(50px);opacity:.75;border-radius:50%}
+.arrows{display:flex;gap:12px;justify-content:center;margin-top:8px}
+.arrows button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.08);color:#fff;font-size:18px;cursor:pointer}
+.arrows button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+/* browser window object */
+.win{position:relative;width:190px;height:130px}
+.win .pane{position:absolute;inset:0;border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.35),rgba(120,150,255,.15));border:1.5px solid rgba(255,255,255,.65);backdrop-filter:blur(8px);box-shadow:0 25px 40px rgba(0,0,60,.5),inset 0 2px 0 rgba(255,255,255,.7)}
+.win .bar{position:absolute;left:12px;top:10px;display:flex;gap:5px}.win .bar i{width:9px;height:9px;border-radius:50%}
+.win .row{position:absolute;left:88px;height:9px;border-radius:9px;background:linear-gradient(90deg,#ff8ae6,#b06bff)}
+.win .pic{position:absolute;left:14px;top:34px;width:62px;height:62px;border-radius:12px;background:linear-gradient(160deg,#6fd2ff,#3b4dff);overflow:hidden}
+.win .pic::after{content:"";position:absolute;left:6px;bottom:-8px;border:24px solid transparent;border-bottom:38px solid #ff6fd8}
+.win .rod{position:absolute;right:-30px;top:-18px;width:90px;height:6px;border-radius:6px;background:linear-gradient(90deg,#fff,#c3b0ff);transform:rotate(-30deg);box-shadow:0 0 10px #fff8}
+.win .helix{position:absolute;right:-20px;bottom:-22px;font-size:34px;color:#ff6fd8;text-shadow:0 0 12px #ff6fd8;transform:rotate(20deg)}
+.win .mag{position:absolute;left:-26px;bottom:-14px;width:40px;height:40px;border-radius:50%;border:6px solid #9fb0ff;background:rgba(255,255,255,.2);backdrop-filter:blur(4px)}
+.chartobj{position:relative;width:150px;height:130px}
+.chartobj i{position:absolute;bottom:0;width:30px;border-radius:10px 10px 6px 6px;background:linear-gradient(180deg,#c9d6ff,#4f6dff 50%,#2238c9);box-shadow:inset 0 2px 0 #fffa,0 10px 20px rgba(0,0,60,.5)}
+.chartobj b{position:absolute;right:-12px;top:-8px;width:54px;height:54px;border-radius:50%;background:conic-gradient(#ff6fd8 0 65%,rgba(255,255,255,.25) 0);
+  -webkit-mask:radial-gradient(circle,transparent 45%,#000 46%);mask:radial-gradient(circle,transparent 45%,#000 46%)}
+.bell{position:relative;width:100px;height:110px}
+.bell .b{position:absolute;left:10px;top:10px;width:80px;height:80px;border-radius:40px 40px 14px 14px;background:linear-gradient(145deg,#ffe0f8,#ff6fd8 45%,#a12bd6);box-shadow:0 20px 30px rgba(60,0,80,.5),inset 0 3px 0 #fffb}
+.bell .c{position:absolute;left:38px;top:86px;width:24px;height:16px;border-radius:0 0 12px 12px;background:#c9d6ff}
+.bell .n{position:absolute;right:0;top:0;width:30px;height:30px;border-radius:50%;background:linear-gradient(145deg,#9be7ff,#3d7bff);display:grid;place-items:center;font-size:13px;font-weight:800;box-shadow:0 0 14px #58e1ffaa}
+
+/* three.js stage */
+#gl{width:100%;height:380px;display:block}
+.glnote{position:absolute;left:28px;bottom:22px;max-width:320px;font-size:13px;color:var(--muted);line-height:1.5}
+.glnote b{color:#fff;display:block;font-size:16px;margin-bottom:4px}
+@media(max-width:700px){.trio{flex-direction:column;align-items:center}.ob{width:240px}.ob:nth-child(2){margin-top:0}}
+@media (prefers-reduced-motion:reduce){.float{animation:none}}
+</style>
+</head>
+<body>
+<h1>3D Interfaces</h1>
+<p class="lead">Deep blue stage, glowing light, and a glossy 3D object as the hero of every card. The objects in the first two sections are pure CSS (no images); the last one is real-time 3D glass.</p>
+
+<h2>ONBOARDING SCREENS</h2>
+<div class="stage">
+  <div class="trio">
+    <div class="ob" style="--glow:#4d6bff"><div class="obj"><div class="float tilt"><div class="wallet"><div class="card"></div><div class="card"></div><div class="back"></div><div class="body"></div><div class="clasp"></div><div class="gloss" style="left:14px;top:12px;width:30px;height:12px"></div></div></div></div>
+      <h3>Secure Digital Wallet</h3><p>Manage and protect your finances with encrypted wallet technology.</p><div class="dots"><i class="on"></i><i></i><i></i></div></div>
+    <div class="ob" style="--glow:#7a3cff"><div class="obj"><div class="float tilt" style="animation-delay:-1.5s"><div class="camera"><div class="top"></div><div class="back"></div><div class="body"></div><div class="lens"></div><div class="flash"></div><div class="gloss" style="left:10px;top:8px;width:22px;height:8px"></div></div></div></div>
+      <h3>Protected Camera Access</h3><p>Control which apps can use your camera, with clear permission settings.</p><div class="dots"><i></i><i class="on"></i><i></i></div></div>
+    <div class="ob" style="--glow:#ff4fd8"><div class="obj"><div class="float tilt" style="animation-delay:-3s"><div class="shield"><div class="s"></div><div class="s2"></div><div class="lock"></div><div class="pw">●●●●</div><div class="gloss" style="left:22px;top:18px;width:24px;height:9px"></div></div></div></div>
+      <h3>Privacy Shield</h3><p>Safeguard your personal data with advanced privacy and security tools.</p><div class="dots"><i></i><i></i><i class="on"></i></div></div>
+  </div>
+</div>
+
+<h2>CENTER-FOCUS CAROUSEL</h2>
+<div class="stage" style="padding:30px 0">
+  <div class="car" id="car">
+    <div class="slide" style="--glow:#4d6bff"><div class="float"><div class="win"><div class="pane"></div><div class="bar"><i style="background:#ff6fd8"></i><i style="background:#ffd24d"></i><i style="background:#58e1ff"></i></div>
+      <div class="pic"></div><div class="row" style="top:40px;width:80px"></div><div class="row" style="top:58px;width:60px"></div><div class="row" style="top:76px;width:72px"></div>
+      <div class="rod"></div><div class="helix">∿</div><div class="mag"></div></div></div><span class="lbl">Design workspace</span></div>
+    <div class="slide" style="--glow:#ff4fd8"><div class="float"><div class="chartobj"><i style="left:0;height:60px"></i><i style="left:40px;height:95px"></i><i style="left:80px;height:75px"></i><b></b></div></div><span class="lbl">Analytics</span></div>
+    <div class="slide" style="--glow:#58e1ff"><div class="float"><div class="bell"><div class="b"></div><div class="c"></div><div class="n">3</div><div class="gloss" style="left:24px;top:22px;width:22px;height:10px"></div></div></div><span class="lbl">Notifications</span></div>
+    <div class="slide" style="--glow:#7a3cff"><div class="float" style="transform:scale(.9)"><div class="camera"><div class="top"></div><div class="back"></div><div class="body"></div><div class="lens"></div><div class="flash"></div></div></div><span class="lbl">Media</span></div>
+  </div>
+  <div class="arrows"><button id="prev" aria-label="Previous">‹</button><button id="next" aria-label="Next">›</button></div>
+</div>
+
+<h2>REAL-TIME 3D GLASS (THREE.JS)</h2>
+<div class="stage" style="padding:0">
+  <canvas id="gl"></canvas>
+  <div class="glnote"><b>Option B: true 3D</b>Transmission glass, clearcoat and colored rim lights. Move your mouse to tilt. Use this when the object should rotate or react.</div>
+</div>
+
+<script>
+// mouse tilt on CSS objects
+document.querySelectorAll('.ob').forEach(card => {
+  const obj = card.querySelector('.tilt');
+  card.addEventListener('pointermove', e => { const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    obj.style.transform = `perspective(600px) rotateY(${x * 30}deg) rotateX(${-y * 24}deg) scale(1.06)`; });
+  card.addEventListener('pointerleave', () => obj.style.transform = '');
+});
+// carousel
+const slides = [...document.querySelectorAll('.slide')]; let cur = 0;
+function layout(){ slides.forEach((s, i) => { let d = i - cur; const n = slides.length; if (d > n / 2) d -= n; if (d < -n / 2) d += n;
+  const a = Math.abs(d); s.style.transform = `translateX(${d * 62}%) scale(${a ? .78 : 1}) rotateY(${-d * 8}deg)`;
+  s.style.opacity = a > 1 ? 0 : a ? .55 : 1; s.style.filter = a ? 'blur(1.5px) saturate(.8)' : 'none'; s.style.zIndex = 10 - a;
+  s.setAttribute('aria-hidden', a ? 'true' : 'false'); }); }
+prev.onclick = () => { cur = (cur - 1 + slides.length) % slides.length; layout(); };
+next.onclick = () => { cur = (cur + 1) % slides.length; layout(); };
+slides.forEach((s, i) => s.onclick = () => { cur = i; layout(); });
+layout();
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => document.hidden || next.onclick(), 4000);
+</script>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+const cv = document.getElementById('gl');
+const r = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
+r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.toneMapping = THREE.ACESFilmicToneMapping;
+const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), .04).texture;
+const cam = new THREE.PerspectiveCamera(35, 1, .1, 50); cam.position.set(0, 0, 8);
+[['#3d7bff', [-4, 2, 3]], ['#ff4fd8', [4, -1, 2]], ['#7a3cff', [0, 4, -3]]].forEach(([c, p]) => { const l = new THREE.PointLight(c, 60, 20); l.position.set(...p); scene.add(l); });
+const g = new THREE.Group(); scene.add(g);
+// glass lock: body + shackle + keyhole + glass plate behind
+const glass = new THREE.MeshPhysicalMaterial({ color: '#9fb6ff', transmission: 1, thickness: .8, roughness: .06, ior: 1.45, iridescence: .5, clearcoat: 1 });
+const solid = new THREE.MeshPhysicalMaterial({ color: '#3d5bff', metalness: .2, roughness: .25, clearcoat: 1, clearcoatRoughness: .1 });
+const pink = new THREE.MeshPhysicalMaterial({ color: '#ff4fd8', metalness: .3, roughness: .2, clearcoat: 1, emissive: '#5a0a50' });
+const plate = new THREE.Mesh(new RoundedBoxGeometry(3.2, 3.6, .35, 6, .35), glass); plate.position.set(.4, .3, -.8); plate.rotation.z = .12; g.add(plate);
+const body = new THREE.Mesh(new RoundedBoxGeometry(2, 1.6, .7, 8, .3), solid); body.position.y = -.5; g.add(body);
+const shackle = new THREE.Mesh(new THREE.TorusGeometry(.6, .16, 24, 64, Math.PI), pink); shackle.position.y = .3; g.add(shackle);
+[-.6, .6].forEach(x => { const leg = new THREE.Mesh(new THREE.CylinderGeometry(.16, .16, .4, 24), pink); leg.position.set(x, .1, 0); g.add(leg); });
+const hole = new THREE.Mesh(new THREE.CylinderGeometry(.16, .16, .1, 32), new THREE.MeshStandardMaterial({ color: '#0a0f5a' })); hole.rotation.x = Math.PI / 2; hole.position.set(0, -.4, .36); g.add(hole);
+const orbs = [...Array(6)].map((_, i) => { const m = new THREE.Mesh(new THREE.SphereGeometry(.12 + Math.random() * .15, 32, 32), i % 2 ? glass : pink);
+  m.position.set((Math.random() - .5) * 5, (Math.random() - .5) * 3, Math.random() - .5); scene.add(m); return m; });
+let mx = 0, my = 0; cv.parentElement.addEventListener('pointermove', e => { const b = cv.getBoundingClientRect(); mx = (e.clientX - b.left) / b.width - .5; my = (e.clientY - b.top) / b.height - .5; });
+function size(){ const w = cv.clientWidth, h = cv.clientHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); g.position.x = w > 700 ? 1.8 : 0; }
+size(); addEventListener('resize', size);
+let vis = true; new IntersectionObserver(([e]) => vis = e.isIntersecting).observe(cv);
+const clock = new THREE.Clock();
+r.setAnimationLoop(() => { if (!vis) return; const t = clock.getElapsedTime();
+  g.rotation.y += ((mx * .9 + Math.sin(t * .5) * .3) - g.rotation.y) * .05; g.rotation.x += ((my * .5) - g.rotation.x) * .05; g.position.y = Math.sin(t) * .12;
+  orbs.forEach((o, i) => o.position.y += Math.sin(t * 1.2 + i) * .004); r.render(scene, cam); });
+</script>
+</body>
+</html>
