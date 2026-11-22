@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Websites Templates & Skills — Live Demos</title>
+<meta name="description" content="Live demos of premium website style templates: animated landing, neumorphism, 3D glass interfaces, bento grid, claymorphism and glassmorphism.">
+<meta property="og:title" content="Websites Templates & Skills — Live Demos">
+<meta property="og:description" content="Six ready-to-use website styles, each a single HTML file. Open a live demo, then install the skill.">
+<meta property="og:image" content="assets/glassmorphism-ui.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090f;--card:#12121b;--line:rgba(255,255,255,.08);--text:#f3f3f8;--muted:#9b9bb2;--a1:#ff7a3d;--a2:#8b5cf6;--a3:#2dd4bf}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden}
+a{color:inherit}
+.aurora{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(110px);opacity:.35}
+header{max-width:1200px;margin:0 auto;padding:22px 20px;display:flex;justify-content:space-between;align-items:center}
+header b{font-size:16px;letter-spacing:-.01em}
+header nav{display:flex;gap:6px}
+header nav a{text-decoration:none;font-size:14px;color:var(--muted);padding:8px 14px;border-radius:999px;border:1px solid transparent}
+header nav a:hover{color:var(--text);border-color:var(--line)}
+.hero{max-width:900px;margin:0 auto;padding:70px 20px 40px;text-align:center}
+.eyebrow{display:inline-block;font-size:12px;letter-spacing:.18em;color:var(--a3);border:1px solid var(--line);border-radius:999px;padding:6px 14px;margin-bottom:22px}
+.hero h1{font-size:clamp(38px,6.5vw,76px);line-height:1;letter-spacing:-.04em;font-weight:800}
+.hero h1 span{background:linear-gradient(90deg,var(--a1),#ff5fa2 45%,var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:18px;max-width:620px;margin:20px auto 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:28px}
+.chips a{font-size:13px;text-decoration:none;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:7px 14px}
+.chips a:hover{border-color:rgba(255,255,255,.25)}
+.grid{max-width:1200px;margin:30px auto 0;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px}
+.card{background:linear-gradient(180deg,#151520,var(--card));border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s;scroll-margin-top:20px}
+.card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.18)}
+.shot{display:block;aspect-ratio:16/10;overflow:hidden;position:relative;background:#000}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.card:hover .shot img{transform:scale(1.04)}
+.shot .live{position:absolute;right:12px;top:12px;font-size:12px;font-weight:700;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);padding:6px 11px;border-radius:999px}
+.shot .live::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;margin-right:7px;box-shadow:0 0 8px #22c55e}
+.body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.body h2{font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.body code{font:13px ui-monospace,Consolas,monospace;color:#c4b5fd}
+.body p{color:var(--muted);font-size:14.5px;margin:8px 0 14px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.tags span{font-size:11.5px;color:#cfcfe0;border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.actions{display:flex;gap:10px;margin-top:auto}
+.btn{flex:1;text-align:center;text-decoration:none;font-weight:700;font-size:14px;border-radius:12px;padding:11px;border:1px solid var(--line)}
+.btn.primary{background:var(--text);color:#0b0b12;border-color:var(--text)}
+.btn:not(.primary):hover{border-color:rgba(255,255,255,.3)}
+.btn:focus-visible,.chips a:focus-visible,header nav a:focus-visible{outline:2px solid var(--a3);outline-offset:3px}
+section.install{max-width:900px;margin:90px auto 0;padding:0 20px}
+section.install h2{font-size:32px;letter-spacing:-.03em;text-align:center}
+section.install>p{color:var(--muted);text-align:center;margin:8px 0 26px}
+.steps{display:grid;gap:14px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.step b{display:block;margin-bottom:8px}
+pre{background:#0c0c13;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;font:13px/1.6 ui-monospace,Consolas,monospace;color:#d9d9e6;position:relative}
+.copy{position:absolute;right:8px;top:8px;font:600 12px Inter,sans-serif;color:var(--muted);background:#1a1a25;border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer}
+.copy:hover{color:var(--text)}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:70px 20px 40px}
+footer a{color:var(--text)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.card,.shot img{transition:none}}
+@media (max-width:560px){.grid{grid-template-columns:1fr}header nav a:not(:last-child){display:none}}
+</style>
+</head>
+<body>
+<div class="aurora" aria-hidden="true">
+  <i style="width:600px;height:600px;background:#ff7a3d;left:-200px;top:-260px"></i>
+  <i style="width:560px;height:560px;background:#8b5cf6;right:-200px;top:120px"></i>
+  <i style="width:500px;height:500px;background:#2dd4bf;left:30%;top:900px"></i>
+</div>
+
+<header>
+  <b>✨ Websites Templates &amp; Skills</b>
+  <nav><a href="#demos">Demos</a><a href="#install">Install</a><a href="https://github.com/Arvind0099/websites-templates-skills">GitHub ↗</a></nav>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">LIVE DEMOS</span>
+  <h1>Six website styles,<br><span>ready to ship</span></h1>
+  <p>Each style is a single HTML file with no build step, packaged as a reusable skill. Open a live demo, scroll and click around, then install the one you like.</p>
+  <div class="chips" id="chips"></div>
+</section>
+
+<main class="grid" id="demos"></main>
+
+<section class="install" id="install">
+  <h2>Install the skills</h2>
+  <p>Copies every skill into your skills folder so it works in all your projects.</p>
+  <div class="steps">
+    <div class="step"><b>🪟 Windows (PowerShell)</b><pre>git clone https://github.com/Arvind0099/websites-templates-skills.git
+cd websites-templates-skills
+powershell -ExecutionPolicy Bypass -File .\install.ps1</pre></div>
+    <div class="step"><b>🍎 macOS / 🐧 Linux</b><pre>git clone https://github.com/Arvind0099/websites-templates-skills.git
+cd websites-templates-skills
+sh install.sh</pre></div>
+    <div class="step"><b>⚡ Then use one</b><pre>/bento-dark-grid build the features section for my SaaS</pre></div>
+  </div>
+</section>
+
+<footer>MIT licensed · <a href="https://github.com/Arvind0099/websites-templates-skills">Source on GitHub</a> · Crafted by <a href="https://t.me/N4pst3rX">@N4pst3rX</a></footer>
+
+<script>
+const REPO = 'https://github.com/Arvind0099/websites-templates-skills/blob/main/skills/';
+const S = [
+  ['animated-landing', '🌌', 'Animated Landing', 'Scroll-animated premium landing page: aurora glows, glass cards, word-by-word headline, pinned tour, 3D card fan, CTA band that expands into a form.', ['GSAP', 'Landing page', 'Light & dark'], 'assets/preview.png'],
+  ['neumorphism-ui', '🫧', 'Neumorphism UI', 'Soft UI made from the background color with paired light and dark shadows. Creator dashboard plus two phone screens with glossy app icons.', ['CSS only', 'Dashboard', 'Mobile app'], 'assets/neumorphism-ui.png'],
+  ['glass-3d-interfaces', '💎', '3D Glass Interfaces', 'Deep blue glow stage with glossy 3D objects built in pure CSS, a center-focus carousel and a real-time Three.js glass lock.', ['CSS 3D', 'Three.js', 'Onboarding'], 'assets/glass-3d-interfaces.png'],
+  ['bento-dark-grid', '🍱', 'Bento Grid', 'Premium dark bento: mixed tile sizes, gradient borders, cursor spotlight, big numbers, code and chart tiles, plus a light mode.', ['CSS Grid', 'SaaS features', 'Analytics'], 'assets/bento-dark-grid.png'],
+  ['claymorphism-ui', '🧸', 'Claymorphism UI', 'Puffy pastel clay elements with floating shadows and squishy springy buttons. Money-app hero, features, pricing and controls.', ['CSS only', 'Playful', 'Pricing'], 'assets/claymorphism-ui.png'],
+  ['glassmorphism-ui', '🪟', 'Glassmorphism UI', 'Frosted glass panels over drifting color blobs: navbar, hero, weather, player, stats, login card and a glass dock.', ['Backdrop blur', 'Widgets', 'Fallbacks'], 'assets/glassmorphism-ui.png'],
+];
+const grid = document.getElementById('demos'), chips = document.getElementById('chips');
+S.forEach(([id, icon, name, desc, tags, img]) => {
+  const demo = `skills/${id}/template/index.html`;
+  chips.insertAdjacentHTML('beforeend', `<a href="#${id}">${icon} ${name}</a>`);
+  grid.insertAdjacentHTML('beforeend', `<article class="card reveal" id="${id}">
+    <a class="shot" href="${demo}" aria-label="Open ${name} live demo"><img src="${img}" alt="${name} preview" loading="lazy" width="1440" height="900"><span class="live">Live demo</span></a>
+    <div class="body"><h2>${icon} ${name}</h2><code>/${id}</code><p>${desc}</p>
+      <div class="tags">${tags.map(t => `<span>${t}</span>`).join('')}</div>
+      <div class="actions"><a class="btn primary" href="${demo}">Open demo ↗</a><a class="btn" href="${REPO}${id}/SKILL.md">View skill</a></div></div></article>`);
+});
+document.querySelectorAll('pre').forEach(p => { const b = document.createElement('button'); b.className = 'copy'; b.textContent = 'Copy';
+  b.onclick = () => navigator.clipboard.writeText(p.firstChild.textContent).then(() => { b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy', 1500); });
+  p.appendChild(b); });
+const io = 'IntersectionObserver' in window && new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .1 });
+document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io ? io.observe(el) : el.classList.add('in'); });
+setTimeout(() => document.querySelectorAll('.reveal').forEach(el => el.classList.add('in')), 2500);
+</script>
+</body>
+</html>

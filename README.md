@@ -23,7 +23,7 @@ Drop a skill into your machine (or any repo), ask for a page, and get a modern, 
 
 <br>
 
-**[🚀 Live demo](https://kundali.arvind.eu.org/)** &nbsp;·&nbsp; **[📦 Install](#-install)** &nbsp;·&nbsp; **[🧑‍💻 Usage](#-usage)** &nbsp;·&nbsp; **[🎨 Customize](#-customize)** &nbsp;·&nbsp; **[📄 License](#-license)**
+**[🖼️ All style demos](https://arvind0099.github.io/websites-templates-skills/)** &nbsp;·&nbsp; **[🚀 Live demo](https://kundali.arvind.eu.org/)** &nbsp;·&nbsp; **[📦 Install](#-install)** &nbsp;·&nbsp; **[🧑‍💻 Usage](#-usage)** &nbsp;·&nbsp; **[🎨 Customize](#-customize)** &nbsp;·&nbsp; **[📄 License](#-license)**
 
 <br>
 
@@ -68,6 +68,8 @@ Drop a skill into your machine (or any repo), ask for a page, and get a modern, 
 <td width="50%" align="center"><img src="assets/preview.png" alt="Animated landing template" width="100%"><br><sub>🌌 <b>animated-landing</b> — <a href="skills/animated-landing/template/index.html">template</a></sub></td>
 </tr>
 </table>
+
+<p align="center">👉 <b><a href="https://arvind0099.github.io/websites-templates-skills/">Open the live demo gallery</a></b> — every style running in your browser.</p>
 
 **Use one:** `/bento-dark-grid build the features section for my SaaS` · `/claymorphism-ui make a pricing page` · or just say *"make it glassmorphic"*.
 
